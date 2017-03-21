@@ -3,7 +3,7 @@ window.onload = function() {
 	var attributionValue = getParameterByName("attribution");
 	if (attributionValue && attributionValue != ""){		
 		var attribution = $.param({ attribution:attributionValue });
-		replaceOptionsListUrls(attribution);
+		addQueryStringToOptionsListUrls(attribution);
 		addQueryStringToHrefs(attribution);
 	}
 }

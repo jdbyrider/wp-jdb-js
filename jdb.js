@@ -26,7 +26,7 @@ var addQueryStringToOptionsListUrls = function(attribution) {
 	var selectOptions = $(".dms-select")[0];
 	if (selectOptions) {
 		_.forEach(selectOptions, function(option){
-			if(option.value != "" || !option.value) {
+			if(option.value != "") {
 				option.value = option.value + "?" + attribution;
 			};
 		});

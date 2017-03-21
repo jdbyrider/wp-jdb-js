@@ -47,6 +47,9 @@ var addQueryStringToHrefs = function(attribution) {
 
 //checks if the href value starts with the jdb base url
 var hrefStartWithJdbUrl = function(href){
+	if (!href){
+		return false;
+	}
 	var jdbBaseUrlHttp = "http://www.jdbyrider.com";
 	var jdbBaseUrlHttps = "https://www.jdbyrider.com";
 	var httpStartsWith = href.startsWith(jdbBaseUrlHttp);

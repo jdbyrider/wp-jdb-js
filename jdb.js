@@ -1,12 +1,39 @@
 //run the scripts on page load
+	
 window.onload = function() {
-	var attributionValue = getParameterByName("attribution");
-	if (attributionValue && attributionValue != ""){		
+	//get the attribution queyr param
+	var attributionValue = getParameterByName("attribution");	
+	//if the query string wasn't empty, set it as a cookie and format the links
+	if (attributionValue && attributionValue != ""){	
+		document.cookie = "attribution=" + attributionValue;
 		var attribution = jQuery.param({ attribution:attributionValue });
 		addQueryStringToOptionsListUrls(attribution);
 		addQueryStringToHrefs(attribution);
 	}
+	//if the query string was empty, get the cookie and create the jquery param with that instead
+	else if (getCookie("attribution")){
+		var attribution = jQuery.param({ attribution:getCookie("attribution") });
+		addQueryStringToOptionsListUrls(attribution);
+		addQueryStringToHrefs(attribution);
+	}
 }
+
+//https://www.w3schools.com/js/js_cookies.asp
+function getCookie(cookieName) {
+    var name = cookieName + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 
 //http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
 function getParameterByName(name, url) {

@@ -2,7 +2,7 @@
 window.onload = function() {
 	var attributionValue = getParameterByName("attribution");
 	if (attributionValue && attributionValue != ""){		
-		var attribution = $.param({ attribution:attributionValue });
+		var attribution = jQuery.param({ attribution:attributionValue });
 		addQueryStringToOptionsListUrls(attribution);
 		addQueryStringToHrefs(attribution);
 	}
@@ -23,7 +23,7 @@ function getParameterByName(name, url) {
 
 var addParams = function( url, param )
 {
-	if (!$.isEmptyObject(param))
+	if (!jQuery.isEmptyObject(param))
 	{
 		url += ( url.indexOf('?') >= 0 ? '&' : '?' ) + param;
 	}

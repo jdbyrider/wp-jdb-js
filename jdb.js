@@ -21,13 +21,22 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
+var addParams = function( url, param )
+{
+	if (!$.isEmptyObject(param))
+	{
+		url += ( url.indexOf('?') >= 0 ? '&' : '?' ) + param;
+	}
+	return url;
+}
+
 //iterates through the options on the get me approved list and adds the visitor id to the query string parameters
 var addQueryStringToOptionsListUrls = function(attribution) {
 	var selectOptions = $(".dms-select")[0];
 	if (selectOptions) {
 		_.forEach(selectOptions, function(option){
 			if(option.value != "") {
-				option.value = option.value + "?" + attribution;
+				option.value = addParams(option.value, attribution);
 			};
 		});
 	};

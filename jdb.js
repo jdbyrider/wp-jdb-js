@@ -47,7 +47,7 @@ var addQueryStringToHrefs = function(attribution) {
 	$('a').each(function() {
 		var href = $(this).attr('href');
 
-		if (href && hrefStartWithJdbUrl()) {
+		if (href && hrefStartWithJdbUrl(href)) {
 			href += (href.match(/\?/) ? '&' : '?') + attribution;
 			$(this).attr('href', href);
 		}

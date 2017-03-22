@@ -61,9 +61,7 @@ var hrefStartWithJdbUrl = function(href){
 	}
 	var jdbBaseUrlHttp = "http://www.jdbyrider.com";
 	var jdbBaseUrlHttps = "https://www.jdbyrider.com";
-	var httpStartsWith = href.startsWith(jdbBaseUrlHttp);
-	var httpsStartsWith = href.startsWith(jdbBaseUrlHttps);
-	if (httpStartsWith || httpsStartsWith){
+	if (href.startsWith(jdbBaseUrlHttp) || href.startsWith(jdbBaseUrlHttps)){
 		return true;
 	}
 	else{

@@ -20,7 +20,7 @@ window.onload = function() {
 
 function setOrUpdateCookie(attributionValue){
 	var expirationDate = new Date();
-	expirationDate.setMinutes(expirationDate.getMinutes() + 60);
+	expirationDate.setDate(expirationDate.getDate() + 14);
 	var expirationString = "; expires=" + expirationString.toGMTString();
 	document.cookie = "attribution=" + attributionValue + expirationString + "; path=/"'
 }

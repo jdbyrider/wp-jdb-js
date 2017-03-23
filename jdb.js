@@ -5,7 +5,7 @@ window.onload = function() {
 	var attributionValue = getParameterByName("attribution");	
 	//if the query string wasn't empty, set it as a cookie and format the links
 	if (attributionValue && attributionValue != ""){	
-		document.cookie = "attribution=" + attributionValue;
+		setOrUpdateCookie(attributionValue);		
 		var attribution = jQuery.param({ attribution:attributionValue });
 		addQueryStringToOptionsListUrls(attribution);
 		addQueryStringToHrefs(attribution);
@@ -16,6 +16,13 @@ window.onload = function() {
 		addQueryStringToOptionsListUrls(attribution);
 		addQueryStringToHrefs(attribution);
 	}
+}
+
+function setOrUpdateCookie(attributionValue){
+	var expirationDate = new Date();
+	expirationDate.setMinutes(expirationDate.getMinutes() + 60);
+	var expirationString = "; expires=" + expirationString.toGMTString();
+	document.cookie = "attribution=" + attributionValue + expirationString + "; path=/"'
 }
 
 //https://www.w3schools.com/js/js_cookies.asp

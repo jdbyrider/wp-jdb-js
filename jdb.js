@@ -21,7 +21,7 @@ window.onload = function() {
 function setOrUpdateCookie(attributionValue){
 	var expirationDate = new Date();
 	expirationDate.setDate(expirationDate.getDate() + 14);
-	var expirationString = "; expires=" + expirationString.toGMTString();
+	var expirationString = "; expires=" + expirationDate.toGMTString();
 	document.cookie = "attribution=" + attributionValue + expirationString + "; path=/";
 }
 

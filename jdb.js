@@ -93,9 +93,16 @@ var hrefStartWithJdbUrl = function(href){
 	if (!href){
 		return false;
 	}
+
 	var jdbBaseUrlHttp = "http://www.jdbyrider.com";
 	var jdbBaseUrlHttps = "https://www.jdbyrider.com";
-	if (href.startsWith(jdbBaseUrlHttp) || href.startsWith(jdbBaseUrlHttps)){
+	var jdbTestBaseUrl = "scdev.jdbyrider.com"	
+	var jdbTestBaseUrlHttp = "http://scdev.jdbyrider.com";
+	var jdbTestBaseUrlHttps = "http://scdev.jdbyrider.com";
+
+	if (href.startsWith(jdbBaseUrlHttp) || href.startsWith(jdbBaseUrlHttps) 
+		|| href.startsWith(jdbTestBaseUrlHttp) || href.startsWith(jdbTestBaseUrlHttps) || href.startsWith(jdbTestBaseUrl))
+	{
 		return true;
 	}
 	else{

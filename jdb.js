@@ -59,9 +59,9 @@ function getCookie(cookieName) {
 }
 
 function containsAttribution(href, attribution) {
-	if(href.indexOf('?' + attribution + '=') != -1)
+	if(href.indexOf('?' + attribution) != -1)
 		return true;
-	else if(href.indexOf('&' + attribution + '=') != -1)
+	else if(href.indexOf('&' + attribution) != -1)
 		return true;
 	return false;
 }

@@ -1,21 +1,38 @@
 //run the scripts on page load
 	
-window.onload = function() {
-	//get the attribution queyr param
+window.onload = function() {	
+	//get the attribution query param
 	var attributionValue = getParameterByName("attribution");	
+	if (attribution && attribution == ""){
+		//exit
+		return null;
+	}
 	//if the query string wasn't empty, set it as a cookie and format the links
-	if (attributionValue && attributionValue != ""){	
+	else if (attributionValue && attributionValue != ""){	
 		setOrUpdateCookie(attributionValue);		
 		var attribution = jQuery.param({ attribution:attributionValue });
-		addQueryStringToOptionsListUrls(attribution);
-		addQueryStringToHrefs(attribution);
+		initialize(attribution);
 	}
 	//if the query string was empty, get the cookie and create the jquery param with that instead
 	else if (getCookie("attribution")){
 		var attribution = jQuery.param({ attribution:getCookie("attribution") });
-		addQueryStringToOptionsListUrls(attribution);
-		addQueryStringToHrefs(attribution);
+		initialize(attribution);
 	}
+}
+
+//common functions for either path
+function initialize(attribution) {
+	addQueryStringToOptionsListUrls(attribution);
+	addQueryStringToHrefs(attribution);
+	attachInventoryListener(attribution);
+}
+
+//attach a listener to the vehicle inventory div to handle pagination
+function attachInventoryListener(attribution) {
+	jQuery('#demon-content').bind("DOMSubtreeModified",function(){
+		//call the href replace function here
+		addQueryStringToHrefs(attribution);
+	});
 }
 
 function setOrUpdateCookie(attributionValue){
@@ -41,6 +58,13 @@ function getCookie(cookieName) {
     return "";
 }
 
+function containsAttribution(href, attribution) {
+	if(href.indexOf('?' + attribution + '=') != -1)
+		return true;
+	else if(href.indexOf('&' + attribution + '=') != -1)
+		return true;
+	return false;
+}
 
 //http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
 function getParameterByName(name, url) {
@@ -55,7 +79,7 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-var addParams = function( url, param )
+var addParams = function(url, param)
 {
 	if (!jQuery.isEmptyObject(param))
 	{
@@ -81,8 +105,8 @@ var addQueryStringToHrefs = function(attribution) {
 	$('a').each(function() {
 		var href = $(this).attr('href');
 
-		if (href && hrefStartWithJdbUrl(href)) {
-			href += (href.match(/\?/) ? '&' : '?') + attribution;
+		if (href && hrefStartWithJdbUrl(href) && !containsAttribution(href, attribution)) {
+			href = addParams(href, attibution);
 			$(this).attr('href', href);
 		}
 	});

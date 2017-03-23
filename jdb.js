@@ -106,7 +106,7 @@ var addQueryStringToHrefs = function(attribution) {
 		var href = $(this).attr('href');
 
 		if (href && hrefStartWithJdbUrl(href) && !containsAttribution(href, attribution)) {
-			href = addParams(href, attibution);
+			href = addParams(href, attribution);
 			$(this).attr('href', href);
 		}
 	});

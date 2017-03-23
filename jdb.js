@@ -22,7 +22,7 @@ function setOrUpdateCookie(attributionValue){
 	var expirationDate = new Date();
 	expirationDate.setDate(expirationDate.getDate() + 14);
 	var expirationString = "; expires=" + expirationString.toGMTString();
-	document.cookie = "attribution=" + attributionValue + expirationString + "; path=/"'
+	document.cookie = "attribution=" + attributionValue + expirationString + "; path=/";
 }
 
 //https://www.w3schools.com/js/js_cookies.asp

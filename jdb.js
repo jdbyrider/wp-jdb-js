@@ -5,6 +5,8 @@ window.onbeforeunload = function(){
 	var cookie = getCookie("attribution");
 	if(attribution && !cookie){
 		setOrUpdateCookie(attribution);
+	} else if (attribution && cookie && attribution !== cookie) {
+		setOrUpdateCookie(attribution);
 	}
 }
 	

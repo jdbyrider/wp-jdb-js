@@ -1,9 +1,17 @@
 //run the scripts on page load
+window.onbeforeunload = function(){
+	//make sure that the cookie was set if the user was too speedy :^)
+	var attribution = getParameterByName("attribution");
+	var cookie = getCookie("attribution");
+	if(attribution && !cookie){
+		setOrUpdateCookie(attribution);
+	}
+}
 	
 window.onload = function() {	
 	//get the attribution query param
 	var attributionValue = getParameterByName("attribution");	
-	if (attribution && attribution == ""){
+	if (attributionValue && attributionValue == ""){
 		//exit
 		return null;
 	}
@@ -17,7 +25,7 @@ window.onload = function() {
 	else if (getCookie("attribution")){
 		var attribution = jQuery.param({ attribution:getCookie("attribution") });
 		initialize(attribution);
-	}
+	}		
 }
 
 //common functions for either path
@@ -133,3 +141,4 @@ var hrefStartWithJdbUrl = function(href){
 		return false;
 	}
 };
+

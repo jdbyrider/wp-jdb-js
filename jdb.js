@@ -4,13 +4,18 @@ window.onbeforeunload = function(){
 	var attribution = getParameterByName("attribution");
 	var cookie = getCookie("attribution");
 	if(attribution && !cookie){
-		setOrUpdateCookie(attribution);
+		setOrUpdateAttributionCookie(attribution);
 	} else if (attribution && cookie && attribution !== cookie) {
-		setOrUpdateCookie(attribution);
+		setOrUpdateAttributionCookie(attribution);
 	}
 }
 	
 window.onload = function() {	
+	handleAttributionValue();
+	handleVisitorIdValue();
+}
+
+function handleAttributionValue(){
 	//get the attribution query param
 	var attributionValue = getParameterByName("attribution");	
 	if (attributionValue && attributionValue == ""){
@@ -19,7 +24,7 @@ window.onload = function() {
 	}
 	//if the query string wasn't empty, set it as a cookie and format the links
 	else if (attributionValue && attributionValue != ""){	
-		setOrUpdateCookie(attributionValue);		
+		setOrUpdateAttributionCookie(attributionValue);
 		var attribution = jQuery.param({ attribution:attributionValue });
 		initialize(attribution);
 	}
@@ -27,7 +32,14 @@ window.onload = function() {
 	else if (getCookie("attribution")){
 		var attribution = jQuery.param({ attribution:getCookie("attribution") });
 		initialize(attribution);
-	}		
+	}
+}
+
+function handleVisitorIdValue(){
+	if(!getCookie("visitorid")){
+		var guid = generateGUID();
+		setOrUpdateVisitorIdCookie(guid);
+	}
 }
 
 //common functions for either path
@@ -45,12 +57,20 @@ function attachInventoryListener(attribution) {
 	});
 }
 
-function setOrUpdateCookie(attributionValue){
+function setOrUpdateAttributionCookie(attributionValue){
 	var expirationDate = new Date();
 	expirationDate.setDate(expirationDate.getDate() + 14);
 	var expirationString = "; expires=" + expirationDate.toGMTString();
 	document.cookie = "attribution=" + attributionValue + expirationString + "; path=/";
 }
+
+function setOrUpdateVisitorIdCookie(guid){
+	var expirationDate = new Date();
+	expirationDate.setDate(expirationDate.getDate() + 30);
+	var expirationString = "; expires=" + expirationDate.toGMTString();
+	document.cookie = "visitorid=" + guid + expirationString + "; path=/";
+}
+
 
 //https://www.w3schools.com/js/js_cookies.asp
 function getCookie(cookieName) {
@@ -143,4 +163,17 @@ var hrefStartWithJdbUrl = function(href){
 		return false;
 	}
 };
+
+//http://stackoverflow.com/a/8809472
+function generateGUID () { // Public Domain/MIT
+    var d = new Date().getTime();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+        d += performance.now(); //use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
 

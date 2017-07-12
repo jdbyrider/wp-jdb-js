@@ -5,11 +5,11 @@ window.onbeforeunload = function(){
 	var cookie = getCookie("attribution");
 	if(attribution && !cookie){
 		setOrUpdateAttributionCookie(attribution);
-	} else if (attribution && cookie && attribution !== cookie) {
+		} else if (attribution && cookie && attribution !== cookie) {
 		setOrUpdateAttributionCookie(attribution);
 	}
 }
-	
+
 window.onload = function() {	
 	handleAttributionValue();
 	handleVisitorIdValue();
@@ -80,30 +80,30 @@ function getCookie(cookieName) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
-        }
+		}
         if (c.indexOf(name) == 0) {
             return c.substring(name.length, c.length);
-        }
-    }
+		}
+	}
     return "";
 }
 
 function containsAttribution(href, attribution) {
 	if(href.indexOf('?' + attribution) != -1)
-		return true;
+	return true;
 	else if(href.indexOf('&' + attribution) != -1)
-		return true;
+	return true;
 	return false;
 }
 
 //http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
 function getParameterByName(name, url) {
     if (!url) {
-      url = window.location.href;
-    }
+		url = window.location.href;
+	}
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
+	results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
@@ -134,7 +134,7 @@ var addQueryStringToOptionsListUrls = function(attribution) {
 var addQueryStringToHrefs = function(attribution) {	
 	$('a').each(function() {
 		var href = $(this).attr('href');
-
+		
 		if (href && hrefStartWithJdbUrl(href) && !containsAttribution(href, attribution)) {
 			href = addParams(href, attribution);
 			$(this).attr('href', href);
@@ -147,15 +147,23 @@ var hrefStartWithJdbUrl = function(href){
 	if (!href){
 		return false;
 	}
-
+	
 	var jdbBaseUrlHttp = "http://www.jdbyrider.com";
 	var jdbBaseUrlHttps = "https://www.jdbyrider.com";
 	var jdbTestBaseUrl = "scdev.jdbyrider.com"	
 	var jdbTestBaseUrlHttp = "http://scdev.jdbyrider.com";
 	var jdbTestBaseUrlHttps = "http://scdev.jdbyrider.com";
-
-	if (href.startsWith(jdbBaseUrlHttp) || href.startsWith(jdbBaseUrlHttps) 
-		|| href.startsWith(jdbTestBaseUrlHttp) || href.startsWith(jdbTestBaseUrlHttps) || href.startsWith(jdbTestBaseUrl))
+	var jdbBaseNoHttp = "//www.jdbyrider.com";
+	var jdbDevNoHttp = "//www.scdev.jdbyrider.com";
+	
+	if (href.startsWith(jdbBaseUrlHttp) || 
+	href.startsWith(jdbBaseUrlHttps) || 
+	href.startsWith(jdbTestBaseUrlHttp) || 
+	href.startsWith(jdbTestBaseUrlHttps) || 
+	href.startsWith(jdbTestBaseUrl) ||
+	href.startsWith(jdbBaseNoHttp) ||
+	href.startsWith(jdbDevNoHttp)
+	)
 	{
 		return true;
 	}
@@ -169,11 +177,11 @@ function generateGUID () { // Public Domain/MIT
     var d = new Date().getTime();
     if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
         d += performance.now(); //use high-precision timer if available
-    }
+	}
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = (d + Math.random() * 16) % 16 | 0;
         d = Math.floor(d / 16);
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-    });
+	});
 }
 
